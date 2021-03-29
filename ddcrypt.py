@@ -44,6 +44,38 @@ else:
 								try:
 									androidmanifest = open(destdir + "AndroidManifest.xml","r").read()
 									strings = androidmanifest
+									userdir = destdir + "assets/user"
+									if os.path.isdir(userdir):
+										isfilejs = False
+										for f in os.listdir(userdir):
+											if f.lower().endswith(".js"):
+												isfilejs = True
+												break
+										if not isfilejs:
+											print("[ddcrypt] the app is not build with droidscript")
+											print("[ddcrypt] or not supported to be decompiled")
+											print("[ddcrypt] deleting raw resources...")
+											system(f"rm -rf {destdir}")
+											print("[ddcrypt] quitting!",end="")
+											raise StopDDCrypt
+										tempdir = destdir[0:len(destdir)-1] + ".bak"
+										system(f"mv '{userdir}' '{tempdir}'")
+										system(f"rm -rf '{destdir[0:len(destdir)-1]}'")
+										system(f"mv '{tempdir}' '{destdir[0:len(destdir)-1]}'")
+										for f in os.listdir(destdir[0:len(destdir)-1]):
+											if f.endswith(".js"):
+												fileiter = f[0:len(f)-3]
+												if fileiter in strings or fileiter.lower() in strings:
+													filepath = destdir + f
+													filename = f
+													break
+									else:
+										print("[ddcrypt] the app is not build with droidscript")
+										print("[ddcrypt] or not supported to be decompiled")
+										print("[ddcrypt] deleting raw resources...")
+										system(f"rm -rf {destdir}")
+										print("[ddcrypt] quitting!",end="")
+										raise StopDDCrypt
 								except UnicodeDecodeError:
 									androidmanifest = open(destdir + "AndroidManifest.xml","rb").read()
 									for b in stream:
