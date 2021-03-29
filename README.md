@@ -14,8 +14,3 @@ There are multiple ways you can contribute to this project. We welcome contribut
 
 ## Requirements
 • Python 3.x
-
-## Contact Me
-Line     : dtl.lily<br>
-Telegram : @dtlily<br>
-Facebook : cgi.izo
